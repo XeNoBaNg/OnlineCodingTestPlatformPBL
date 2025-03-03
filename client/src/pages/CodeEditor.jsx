@@ -1,13 +1,13 @@
-import { useState } from "react";
-import Editor from "@monaco-editor/react";
+import { useState } from "react"
+import Editor from "@monaco-editor/react"
 
 const CodeEditor = () => {
-    const [code, setCode] = useState("// Write your code here...");
-    const [language, setLanguage] = useState("javascript");
-    const [output, setOutput] = useState("");
+    const [code, setCode] = useState("// Write your code here...")
+    const [language, setLanguage] = useState("javascript")
+    const [output, setOutput] = useState("")
 
     const handleSubmit = () => {
-        setOutput("Code submitted successfully (dummy output).");
+        setOutput("Code submitted successfully (dummy output).")
     };
 
     return (
@@ -44,7 +44,7 @@ const CodeEditor = () => {
                 </div>
             )}
         </div>
-    );
-};
+    )
+}
 
-export default CodeEditor;
+export default CodeEditor

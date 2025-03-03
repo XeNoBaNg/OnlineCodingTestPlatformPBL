@@ -1,17 +1,15 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React from 'react'
+import { Link } from 'react-router-dom'
 
 const StudentRegister = () => {
     return (
         <div className="h-screen w-full bg-gray-100">
-            {/* Navbar */}
             <nav className="w-full h-16 bg-gradient-to-r from-green-600 to-green-500 shadow-md flex items-center justify-between px-10 fixed top-0">
                 <Link to="/" className="text-3xl font-extrabold text-white tracking-wide">
                     PICT
                 </Link>
             </nav>
 
-            {/* Register Section */}
             <section className="flex items-center justify-center min-h-screen">
                 <div className="bg-white p-8 rounded-2xl shadow-lg w-full max-w-md">
                     <h1 className="text-center text-green-600 text-3xl font-bold mb-6">Student Register</h1>
@@ -52,7 +50,7 @@ const StudentRegister = () => {
                 </div>
             </section>
         </div>
-    );
-};
+    )
+}
 
-export default StudentRegister;
+export default StudentRegister

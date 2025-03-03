@@ -5,7 +5,7 @@ const TestPage = () => {
     const [test] = useState({
         title: "Sample Test",
         description: "This is a sample test description.",
-    });
+    })
 
     const [questions] = useState([
         {
@@ -20,7 +20,7 @@ const TestPage = () => {
             description: "Write a function to find the largest number in an array.",
             difficulty: "Medium",
         },
-    ]);
+    ])
 
     return (
         <div className="min-h-screen bg-gray-100 p-6">
@@ -53,7 +53,7 @@ const TestPage = () => {
                 </div>
             </div>
         </div>
-    );
-};
+    )
+}
 
-export default TestPage;
+export default TestPage

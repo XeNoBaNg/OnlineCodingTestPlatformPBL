@@ -7,6 +7,7 @@ import StudentLogin from "./pages/Student/StudentLogin.jsx"
 import AdminLogin from "./pages/Admin/AdminLogin.jsx"
 import TestPage from "./pages/Tests/TestPage.jsx"
 import Leaderboard from "./pages/LeaderBoard.jsx"
+import AboutPage from "./pages/AboutPage.jsx"
 
 function App() {
     return ( 
@@ -19,9 +20,10 @@ function App() {
                 <Route path="/adminlogin" element={<AdminLogin />} />
                 <Route path="/test" element={<TestPage />} />
                 <Route path="leaderboard" element={<Leaderboard />} />
+                <Route path="/about" element={<AboutPage />} />
             </Routes>
         </>
-    );
+    )
 }
 
 export default App

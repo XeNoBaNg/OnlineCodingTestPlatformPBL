@@ -1,19 +1,16 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React from 'react'
+import { Link } from 'react-router-dom'
 
 const LoginRegister = () => {
     return (
         <div className="h-screen w-full bg-gradient-to-b from-gray-100 to-gray-200">
-            {/* Navbar */}
             <nav className="w-full h-16 bg-gradient-to-r from-indigo-600 to-blue-500 shadow-md flex items-center justify-between px-10 fixed top-0 z-50">
                 <Link to="/" className="text-3xl font-extrabold text-white tracking-wide">
                     PICT
                 </Link>
             </nav>
 
-            {/* Login Sections */}
             <div className="h-screen w-full flex pt-16">
-                {/* Admin Section */}
                 <div className="w-1/2 flex flex-col justify-center items-center bg-gray-50 border-r border-gray-300">
                     <div className="w-2/3 text-center">
                         <h2 className="text-3xl font-bold text-gray-800 mb-4">For Admins</h2>
@@ -30,7 +27,6 @@ const LoginRegister = () => {
                     </div>
                 </div>
 
-                {/* Student Section */}
                 <div className="w-1/2 flex flex-col justify-center items-center bg-white">
                     <div className="w-2/3 text-center">
                         <h2 className="text-3xl font-bold text-gray-800 mb-4">For Students</h2>
@@ -48,7 +44,7 @@ const LoginRegister = () => {
                 </div>
             </div>
         </div>
-    );
-};
+    )
+}
 
-export default LoginRegister;
+export default LoginRegister
