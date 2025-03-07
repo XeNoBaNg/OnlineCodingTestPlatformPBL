@@ -17,3 +17,8 @@ CREATE TABLE tests (
     created_by INT REFERENCES users(id),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+
+INSERT INTO users (id, username, email, password_hash, role) 
+VALUES 
+(gen_random_uuid(), 'XeNo', 'xeno@example.com', '$2b$10$.9A5ueD2teyh1FllvkUB6.eKHKIgbOZGvcPJffTadk/O4M19xFfkq', 'admin');
