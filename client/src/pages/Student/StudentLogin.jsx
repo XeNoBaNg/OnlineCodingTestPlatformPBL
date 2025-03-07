@@ -1,32 +1,33 @@
-import {React, useState} from 'react'
+import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import axios from "axios";
+import axios from 'axios'
+import { useSnackbar } from 'notistack'
 
 const StudentLogin = () => {
-    const nav = useNavigate();
 
-    const [formData, setFormData] = useState({
-        email: "",
-        password: "",
-    });
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+    const navigate = useNavigate()
+    const {enqueueSnackbar} = useSnackbar()
 
-    function handleChange(e) {
-        setFormData((prev) => {
-            const newFormData = { ...prev, [e.target.name]: e.target.value };
-            return newFormData;
-        });
+    const handleSubmit = async (ev) => {
+        ev.preventDefault()
+        try {
+            const body = { email, password }
+            await axios
+                .post('http://localhost:5000/student/login', body)
+                .then((res) => {
+                    console.log(res.data)
+                    enqueueSnackbar("Student Logged In Successfully!", {variant : 'success'})
+                    setTimeout(() => {
+                        navigate('/studentdashboard')
+                    }, 1500)
+                })
+        } catch (error) {
+            console.error(error)
+        }
     }
 
-    const sendLoginInfo = async (event) => {
-        event.preventDefault();
-        try {
-            const resp = await axios.post(`http://localhost:${import.meta.env.VITE_SERVER_PORT}/login`, formData);
-            console.log(resp.data);
-            nav('/home');
-        } catch (error) {
-            console.log('Error:', error.response.status, "::", error.response.data);
-        }
-    };
     return (
         <div className="h-screen w-full bg-gray-100">
             <nav className="w-full h-16 bg-gradient-to-r from-green-600 to-green-500 shadow-md flex items-center justify-between px-10 fixed top-0">
@@ -38,23 +39,19 @@ const StudentLogin = () => {
             <section className="flex items-center justify-center min-h-screen">
                 <div className="bg-white p-8 rounded-2xl shadow-lg w-full max-w-md">
                     <h1 className="text-center text-green-600 text-3xl font-bold mb-6">Student Login</h1>
-                    <form className="flex flex-col space-y-4" onSubmit={sendLoginInfo}>
+                    <form className="flex flex-col space-y-4" onSubmit={handleSubmit}>
                         <input
                             type="email"
                             placeholder="Email"
-                            name="email"
-                            autoComplete='username'
-                            onChange={handleChange}
-                            required
+                            value={email}
+                            onChange={(ev) => setEmail(ev.target.value)}
                             className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-400"
                         />
                         <input
                             type="password"
-                            name="password"
-                            autoComplete='current-password'
                             placeholder="Password"
-                            onChange={handleChange}
-                            required
+                            value={password}
+                            onChange={(ev) => setPassword(ev.target.value)}
                             className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-400"
                         />
                         <button

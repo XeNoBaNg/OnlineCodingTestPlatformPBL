@@ -1,26 +1,32 @@
-import React, { useState } from "react";
-import CodeEditor from "../CodeEditor";
+import React, { useState, useEffect } from "react"
+import { useParams } from "react-router-dom"
+import axios from "axios"
+import CodeEditor from "../CodeEditor"
 
 const TestPage = () => {
-    const [test] = useState({
-        title: "Sample Test",
-        description: "This is a sample test description.",
-    })
+    const { testId } = useParams()
+    const [test, setTest] = useState(null)
+    const [questions, setQuestions] = useState([])
+    const [loading, setLoading] = useState(true)
 
-    const [questions] = useState([
-        {
-            id: 1,
-            title: "Reverse a String",
-            description: "Write a function to reverse a given string.",
-            difficulty: "Easy",
-        },
-        {
-            id: 2,
-            title: "Find the Largest Number",
-            description: "Write a function to find the largest number in an array.",
-            difficulty: "Medium",
-        },
-    ])
+    useEffect(() => {
+        const fetchTest = async () => {
+            try {
+                const res = await axios.get(`http://localhost:5000/student/tests/${testId}`)
+                setTest(res.data.test)
+                setQuestions(res.data.questions)
+            } catch (error) {
+                console.error("Error fetching test:", error.response?.data || error.message)
+            } finally {
+                setLoading(false)
+            }
+        }
+
+        fetchTest()
+    }, [testId])
+
+    if (loading) return <p className="text-center text-gray-600 mt-10">Loading test...</p>
+    if (!test) return <p className="text-center text-red-500 mt-10">Test not found.</p>
 
     return (
         <div className="min-h-screen bg-gray-100 p-6">
@@ -56,4 +62,4 @@ const TestPage = () => {
     )
 }
 
-export default TestPage
+export default TestPage;

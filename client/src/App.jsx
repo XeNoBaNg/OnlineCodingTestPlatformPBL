@@ -1,18 +1,20 @@
-import React from "react";
-import { Routes, Route } from "react-router-dom";
-import HomePage from "./pages/HomePage.jsx";
-import LoginRegister from "./pages/LoginRegister.jsx";
-import StudentRegister from "./pages/Student/StudentRegister.jsx";
-import StudentLogin from "./pages/Student/StudentLogin.jsx";
-import AdminLogin from "./pages/Admin/AdminLogin.jsx";
-import TestPage from "./pages/Tests/TestPage.jsx";
-import Leaderboard from "./pages/LeaderBoard.jsx";
-import AboutPage from "./pages/AboutPage.jsx";
-import Random from "./pages/Random.jsx";
-import ProtectedRoutes from "./pages/ProtectedRoutes.jsx";
+import React from "react"
+import { Routes, Route } from 'react-router-dom'
+import HomePage from "./pages/HomePage.jsx"
+import LoginRegister from "./pages/LoginRegister.jsx"
+import StudentRegister from "./pages/Student/StudentRegister.jsx"
+import StudentLogin from "./pages/Student/StudentLogin.jsx"
+import AdminLogin from "./pages/Admin/AdminLogin.jsx"
+import TestPage from "./pages/Tests/TestPage.jsx"
+import Leaderboard from "./pages/LeaderBoard.jsx"
+import AboutPage from "./pages/AboutPage.jsx"
+import AdminDashBoard from "./pages/Admin/AdminDashboard.jsx"
+import StudentDashBoard from "./pages/Student/StudentDashBoard.jsx"
+import AddTest from "./pages/Tests/AddTest.jsx"
+import TestSelection from "./pages/Tests/TestSelection.jsx"
 
 function App() {
-    return (
+    return ( 
         <>
             <Routes>
                 <Route path="/" element={<HomePage />} />
@@ -20,16 +22,16 @@ function App() {
                 <Route path="/studentregister" element={<StudentRegister />} />
                 <Route path="/studentlogin" element={<StudentLogin />} />
                 <Route path="/adminlogin" element={<AdminLogin />} />
-
-                <Route element={<ProtectedRoutes />}>
-                    <Route path="/test" element={<TestPage />} />
-                    <Route path="leaderboard" element={<Leaderboard />} />
-                    <Route path="/about" element={<AboutPage />} />
-                    <Route path="/home" element={<Random />} />
-                </Route>
+                <Route path="/test/:testId" element={<TestPage />} />
+                <Route path="/tests" element={<TestSelection />} />
+                <Route path="leaderboard" element={<Leaderboard />} />
+                <Route path="/about" element={<AboutPage />} />
+                <Route path="/admindashboard" element={<AdminDashBoard />} />
+                <Route path="/studentdashboard" element={<StudentDashBoard />} />
+                <Route path="/admin/addtest" element={<AddTest />} />
             </Routes>
         </>
-    );
+    )
 }
 
-export default App;
+export default App
