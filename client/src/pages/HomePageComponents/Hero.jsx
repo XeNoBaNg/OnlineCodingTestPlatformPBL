@@ -12,7 +12,7 @@ const Hero = () => {
                     An exclusive coding platform for <b className="text-indigo-600">PICT students</b> to compete and showcase their skills when companies come for hiring.
                 </p>
 
-                <div className="mt-8 flex flex-col space-y-4 sm:space-y-0 sm:flex-row sm:space-x-6">
+                {/* <div className="mt-8 flex flex-col space-y-4 sm:space-y-0 sm:flex-row sm:space-x-6">
                     <Link 
                         to="/test" 
                         className="px-8 py-4 bg-indigo-600 text-white rounded-xl font-semibold shadow-md 
@@ -25,7 +25,7 @@ const Hero = () => {
                                    hover:bg-green-700 hover:scale-105 transition-all duration-300">
                         🏆 View Leaderboard
                     </Link>
-                </div>
+                </div> */}
                 <Link 
                     to="/about" 
                     className="mt-6 px-6 py-3 bg-blue-500 text-white rounded-lg font-medium shadow-sm 
