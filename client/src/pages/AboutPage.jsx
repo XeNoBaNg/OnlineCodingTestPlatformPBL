@@ -1,26 +1,64 @@
-import React from 'react';
-import { Link } from 'react-router-dom'
+import React, { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 
 const AboutPage = () => {
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false)
+  const user = JSON.parse(localStorage.getItem("studentUser"))
+  const navigate = useNavigate()
+
+  const handleLogout = () => {
+    localStorage.removeItem("studentUser")
+    setIsDropdownOpen(false)
+    navigate("/login")
+  }
+
   return (
     <div className="min-h-screen w-full bg-gradient-to-b from-gray-100 to-gray-200 flex flex-col">
-      <nav className="w-full h-16 bg-gradient-to-r from-indigo-600 to-blue-500 shadow-md flex items-center justify-between px-10">
+      <nav className="w-full h-16 bg-gradient-to-r from-indigo-600 to-blue-500 shadow-md flex items-center justify-between px-10 relative">
         <Link to="/" className="text-3xl font-extrabold text-white tracking-wide">
-            PICT
+          PICT
         </Link>
-        <div className="space-x-6">
-            <Link to="/" className="text-white text-lg font-medium hover:text-gray-200 transition-all">Home</Link>
-            <Link to="/test" className="text-white text-lg font-medium hover:text-gray-200 transition-all">Test</Link>
-            <Link to="/leaderboard" className="text-white text-lg font-medium hover:text-gray-200 transition-all">Leaderboard</Link>
-            <Link to="/about" className="text-yellow-300 text-lg font-semibold">
-                About
+        <div className="space-x-6 flex items-center relative">
+          <Link to="/" className="text-white text-lg font-medium hover:text-gray-200 transition-all">Home</Link>
+          <Link to="/tests" className="text-white text-lg font-medium hover:text-gray-200 transition-all">Tests</Link>
+          <Link to="/leaderboard" className="text-white text-lg font-medium hover:text-gray-200 transition-all">Leaderboard</Link>
+          <Link to="/about" className="text-yellow-300 text-lg font-semibold">About</Link>
+
+          {user ? (
+            <div className="relative">
+              <button
+                onClick={() => setIsDropdownOpen(prev => !prev)}
+                className="text-white text-md font-medium focus:outline-none"
+              >
+                👤 {user.name || "Student"}
+              </button>
+
+              {isDropdownOpen && (
+                <div className="absolute right-0 mt-2 w-40 bg-white shadow-lg rounded-md overflow-hidden z-50">
+                  <Link
+                    to="/profile"
+                    className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                    onClick={() => setIsDropdownOpen(false)}
+                  >
+                    Profile
+                  </Link>
+                  <button
+                    onClick={handleLogout}
+                    className="w-full text-left px-4 py-2 text-red-600 hover:bg-gray-100"
+                  >
+                    Logout
+                  </button>
+                </div>
+              )}
+            </div>
+          ) : (
+            <Link
+              to="/login"
+              className="px-5 py-2 bg-white text-indigo-600 rounded-lg font-semibold shadow-md hover:bg-gray-200 transition-all"
+            >
+              Login
             </Link>
-            <Link 
-                to="/login" 
-                className="px-5 py-2 bg-white text-indigo-600 rounded-lg font-semibold shadow-md 
-                        hover:bg-gray-200 transition-all">
-                Login
-            </Link>
+          )}
         </div>
       </nav>
 
@@ -29,8 +67,8 @@ const AboutPage = () => {
           About Our Platform
         </h2>
         <p className="mt-4 text-lg text-gray-700 max-w-3xl">
-          PICT Test Platform is an exclusive coding environment designed for students to 
-          **compete, improve skills, and get noticed by recruiters**. It provides a structured 
+          PICT Test Platform is an exclusive coding environment designed for students to{" "}
+          <strong>compete, improve skills, and get noticed by recruiters</strong>. It provides a structured{" "}
           platform to practice coding and participate in timed tests.
         </p>
 

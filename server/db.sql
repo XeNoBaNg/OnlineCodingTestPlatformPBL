@@ -18,6 +18,29 @@ CREATE TABLE tests (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+CREATE TABLE questions (
+    id SERIAL PRIMARY KEY,
+    test_id INT REFERENCES tests(id) ON DELETE CASCADE,
+    title VARCHAR(100) NOT NULL,
+    description TEXT NOT NULL,
+    difficulty VARCHAR(10) CHECK (difficulty IN ('Easy', 'Medium', 'Hard')),
+    test_cases JSONB NOT NULL, 
+    max_score INT NOT NULL
+);
+
+CREATE TABLE submissions (
+    id SERIAL PRIMARY KEY,
+    user_id UUID REFERENCES users(id),
+    question_id INT REFERENCES questions(id),
+    language VARCHAR(50) NOT NULL,
+    code TEXT NOT NULL,
+    status VARCHAR(20) CHECK (status IN ('Pending', 'Accepted', 'Wrong Answer', 'Compilation Error', 'Runtime Error')),
+    score INT DEFAULT 0,
+    execution_time FLOAT,
+    memory_used FLOAT,
+    submitted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 
 INSERT INTO users (id, username, email, password_hash, role) 
 VALUES 

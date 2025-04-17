@@ -2,9 +2,12 @@ import React, { useState, useEffect } from "react"
 import { useParams } from "react-router-dom"
 import axios from "axios"
 import CodeEditor from "../CodeEditor"
+import { useAuth } from "../context/AuthContext"
 
 const TestPage = () => {
     const { testId } = useParams()
+    const auth = useAuth()
+    const { user } = auth 
     const [test, setTest] = useState(null)
     const [questions, setQuestions] = useState([])
     const [loading, setLoading] = useState(true)
@@ -12,11 +15,18 @@ const TestPage = () => {
     useEffect(() => {
         const fetchTest = async () => {
             try {
-                const apiUrl = import.meta.env.VITE_API_URL
-
+                const apiUrl = import.meta.env.VITE_API_URL               
                 const res = await axios.get(`${apiUrl}/student/tests/${testId}`)
-                setTest(res.data.test)
-                setQuestions(res.data.questions)
+
+                if (!res.data || res.data.length === 0) {
+                    console.warn("No test found for ID:", testId)
+                    setLoading(false)
+                    return
+                }
+
+                setTest(res.data[0])
+                const questionsRes = await axios.get(`${apiUrl}/student/tests/${testId}/questions`)
+                setQuestions(questionsRes.data)
             } catch (error) {
                 console.error("Error fetching test:", error.response?.data || error.message)
             } finally {
@@ -27,7 +37,7 @@ const TestPage = () => {
         fetchTest()
     }, [testId])
 
-    if (loading) return <p className="text-center text-gray-600 mt-10">Loading test...</p>
+    if (loading || !user) return <p className="text-center text-gray-600 mt-10">Loading test...</p>
     if (!test) return <p className="text-center text-red-500 mt-10">Test not found.</p>
 
     return (
@@ -37,25 +47,21 @@ const TestPage = () => {
                 <p className="text-gray-700 mb-6">{test.description}</p>
 
                 <div>
-                    {questions.map((question) => (
+                    {Array.isArray(questions) && questions.length > 0 && questions.map((question) => (
                         <div key={question.id} className="mb-6 p-4 border rounded-lg">
                             <h2 className="text-xl font-semibold">{question.title}</h2>
                             <p className="text-gray-600 mb-2">{question.description}</p>
                             <p className="text-sm font-semibold">
-                                Difficulty:{" "}
-                                <span
-                                    className={`text-${
-                                        question.difficulty === "Easy"
-                                            ? "green"
-                                            : question.difficulty === "Medium"
-                                            ? "yellow"
-                                            : "red"
-                                    }-500`}
-                                >
+                                Difficulty: {" "}
+                                <span className={
+                                    question.difficulty === "Easy" ? "text-green-500" :
+                                    question.difficulty === "Medium" ? "text-yellow-500" :
+                                    "text-red-500"
+                                }>
                                     {question.difficulty}
                                 </span>
                             </p>
-                            <CodeEditor />
+                            {user && <CodeEditor user_id={user.id} question_id={question.id} />}
                         </div>
                     ))}
                 </div>
@@ -64,4 +70,4 @@ const TestPage = () => {
     )
 }
 
-export default TestPage;
+export default TestPage

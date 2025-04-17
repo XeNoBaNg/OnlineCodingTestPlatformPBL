@@ -14,21 +14,21 @@ const AdminLogin = () => {
         try {
             const body = { email, password }
             const apiUrl = import.meta.env.VITE_API_URL
-
+    
             const res = await axios.post(`${apiUrl}/admin/login`, body)
-
-            console.log(res.data)
-            enqueueSnackbar("Admin Logged In Successfully!", { variant: 'success' })
-
-            setTimeout(() => {
+    
+            if (res.data) {
+                localStorage.setItem("token", res.data.token)
+                localStorage.setItem("adminUser", JSON.stringify(res.data))
+                enqueueSnackbar("Admin Logged In Successfully!", { variant: 'success' })
                 navigate('/admindashboard')
-            }, 1500)
+            }
         } catch (error) {
             console.error(error)
-            enqueueSnackbar("Login Failed! Please check your credentials.", { variant: 'error' })
+            enqueueSnackbar("Login Failed! Check your credentials.", { variant: 'error' })
         }
     }
-
+    
     return (
         <div className="h-screen w-full bg-gray-100">
             <nav className="w-full h-16 bg-gradient-to-r from-indigo-600 to-blue-500 shadow-md flex items-center justify-between px-10 fixed top-0">

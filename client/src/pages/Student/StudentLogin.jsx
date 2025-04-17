@@ -3,7 +3,6 @@ import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { useSnackbar } from 'notistack'
 
-
 const StudentLogin = () => {
 
     const [email, setEmail] = useState('')
@@ -16,21 +15,27 @@ const StudentLogin = () => {
         try {
             const body = { email, password }
             const apiUrl = import.meta.env.VITE_API_URL
+    
+            const res = await axios.post(`${apiUrl}/student/login`, body)
 
-            await axios
-                .post(`${apiUrl}/student/login`, body)
-                .then((res) => {
-                    console.log(res.data)
-                    enqueueSnackbar("Student Logged In Successfully!", {variant : 'success'})
-                    setTimeout(() => {
-                        navigate('/studentdashboard')
-                    }, 1500)
-                })
+            if (res.data?.student) {  
+                localStorage.setItem("studentUser", JSON.stringify(res.data.student))  
+                localStorage.setItem("token", res.data.token)
+                enqueueSnackbar("Logged In Successfully!", { variant: 'success' })
+    
+                setTimeout(() => {
+                    navigate('/studentdashboard')
+                }, 1500)
+            } else {
+                console.error("Invalid login response format:", res.data)
+                enqueueSnackbar("Login Failed! Unexpected response format.", { variant: 'error' })
+            }
         } catch (error) {
             console.error(error)
+            enqueueSnackbar("Login Failed! Please check your credentials.", { variant: 'error' })
         }
     }
-
+    
     return (
         <div className="h-screen w-full bg-gray-100">
             <nav className="w-full h-16 bg-gradient-to-r from-green-600 to-green-500 shadow-md flex items-center justify-between px-10 fixed top-0">
