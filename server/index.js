@@ -6,7 +6,7 @@ import userRoutes from './Routes/userRoutes.js'
 dotenv.config()
 const app = express()
 
-const allowedOrigins = ['http://localhost:5173', 'https://online-coding-test-platform-hgj1vzoor-abhis-projects-c4e2c3fb.vercel.app/'] // Replace YOUR_VERCEL_URL
+const allowedOrigins = ['http://localhost:5173', 'https://online-coding-test-platform-pbl.vercel.app/'] // Replace YOUR_VERCEL_URL
 const corsOptions = {
     origin: (origin, callback) => {
         if (!origin || allowedOrigins.includes(origin)) {
