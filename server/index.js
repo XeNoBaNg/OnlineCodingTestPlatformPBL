@@ -6,7 +6,18 @@ import userRoutes from './Routes/userRoutes.js'
 dotenv.config()
 const app = express()
 
-app.use(cors())
+const allowedOrigins = ['http://localhost:5173', 'https://online-coding-test-platform-hgj1vzoor-abhis-projects-c4e2c3fb.vercel.app/'] // Replace YOUR_VERCEL_URL
+const corsOptions = {
+    origin: (origin, callback) => {
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true)
+        } else {
+            callback(new Error('Not allowed by CORS'))
+        }
+    },
+    credentials: true // Important if you use cookies/sessions/headers
+}
+app.use(cors(corsOptions))
 app.use(express.json())
 
 app.use('/', userRoutes)
